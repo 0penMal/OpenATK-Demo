@@ -1,0 +1,12 @@
+[project]
+name = "demo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "fastapi>=0.129.0",
+    "psycopg[binary]>=3.3.3",
+    "uvicorn>=0.41.0",
+]
