@@ -69,3 +69,7 @@ button{
 .row input {
   flex: 1;
 }
+
+.chatinput{
+  width: 500px;
+}

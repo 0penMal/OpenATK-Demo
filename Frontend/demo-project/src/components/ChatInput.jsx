@@ -5,7 +5,7 @@ function ChatInput( {onSend} ){
 
     return(
         <div>
-            <input
+            <input className = "chatinput"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Type something..."
