@@ -132,6 +132,74 @@ body {
   backdrop-filter: blur(8px);
 }
 
+.welcome-container {
+  width: min(1120px, 100%);
+  align-self: start;
+}
+
+.welcome-card {
+  padding: clamp(20px, 4vw, 36px);
+  border-radius: var(--radius-card);
+  background: linear-gradient(165deg, rgba(18, 30, 47, 0.86), rgba(9, 18, 31, 0.94));
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-lg);
+}
+
+.welcome-title {
+  margin: 0;
+  font-size: clamp(1.8rem, 1.5rem + 1.1vw, 2.45rem);
+  letter-spacing: -0.02em;
+}
+
+.welcome-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.welcome-section h2 {
+  margin: 0 0 10px;
+  font-size: 1.18rem;
+  letter-spacing: -0.01em;
+}
+
+.welcome-section p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.47;
+}
+
+.welcome-list {
+  margin: 10px 0 12px;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.welcome-list li {
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.welcome-part + .welcome-part {
+  margin-top: 12px;
+}
+
+.welcome-part h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.welcome-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.welcome-cta {
+  min-width: 160px;
+}
+
 .learning-container {
   width: min(1080px, 100%);
   align-self: start;
@@ -468,6 +536,10 @@ button:disabled {
     gap: 14px;
   }
 
+  .welcome-card {
+    border-radius: 18px;
+  }
+
   .learning-card {
     border-radius: 18px;
   }
@@ -494,8 +566,20 @@ button:disabled {
     padding: 14px;
   }
 
+  .welcome-card {
+    padding: 16px;
+  }
+
   .learning-card {
     padding: 16px;
+  }
+
+  .welcome-actions {
+    justify-content: stretch;
+  }
+
+  .welcome-cta {
+    width: 100%;
   }
 
   .learning-actions {
