@@ -8,7 +8,6 @@ import PswdPanel from "../components/PswdPanel";
 
 const API = "http://127.0.0.1:8000";
 const CHALLENGE_ACCESS_KEY = "challenge_access";
-const ATTEMPT_STARTING_KEY = "attempt_starting";
 
 function FinishModal({ open, onCancel, onConfirm }) {
   if (!open) return null;
@@ -48,6 +47,7 @@ export default function ChatPage() {
   const [finishStats, setFinishStats] = useState(null);
 
   const [finishModalOpen, setFinishModalOpen] = useState(false);
+  const readyAttemptId = attemptId || sessionStorage.getItem("attempt_id");
 
   useEffect(() => {
     if (location.state?.fromLearning) {
@@ -64,14 +64,13 @@ export default function ChatPage() {
       try {
         const res = await fetch(`${API}/attempts/start`, { method: "POST" });
         const data = await res.json(); // { attempt_id }
+        const newAttemptId = data.attempt_id;
+        sessionStorage.setItem("attempt_id", newAttemptId);
         if (cancelled) return;
 
-        setAttemptId(data.attempt_id);
-        sessionStorage.setItem("attempt_id", data.attempt_id);
+        setAttemptId(newAttemptId);
       } catch (e) {
         console.error("Failed to start attempt:", e);
-      } finally {
-        sessionStorage.removeItem(ATTEMPT_STARTING_KEY);
       }
     }
 
@@ -81,8 +80,6 @@ export default function ChatPage() {
     }
 
     if (!attemptId) {
-      if (sessionStorage.getItem(ATTEMPT_STARTING_KEY) === "1") return;
-      sessionStorage.setItem(ATTEMPT_STARTING_KEY, "1");
       startAttempt();
     }
 
@@ -107,8 +104,9 @@ export default function ChatPage() {
 
   async function handleSend(prompt) {
     if (isFinished) return;
+    const activeAttemptId = readyAttemptId;
 
-    if (!attemptId) {
+    if (!activeAttemptId) {
       setMessages((prev) => [...prev, { role: "bot", text: "Starting session… try again in a moment." }]);
       return;
     }
@@ -118,7 +116,7 @@ export default function ChatPage() {
     const res = await fetch(`${API}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ level: Number(level), prompt, attempt_id: attemptId }),
+      body: JSON.stringify({ level: Number(level), prompt, attempt_id: activeAttemptId }),
     });
 
     const data = await res.json(); // { output: "..." }
@@ -153,10 +151,15 @@ export default function ChatPage() {
 
   async function finishAttempt(reason = "user_finish") {
     setIsFinished(true);
+    const activeAttemptId = readyAttemptId;
 
     // if attemptId missing, still redirect to thank-you (but UUID would be empty)
-    if (!attemptId) {
-      navigate("/thank-you");
+    if (!activeAttemptId) {
+      setIsFinished(false);
+      setMessages((prev) => [
+        ...prev,
+        { role: "bot", text: "Session is still starting. Please wait a moment, then press Finish again." },
+      ]);
       return;
     }
 
@@ -165,7 +168,7 @@ export default function ChatPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          attempt_id: attemptId,
+          attempt_id: activeAttemptId,
           final_level: level,
           finished_reason: reason,
         }),
@@ -232,7 +235,7 @@ export default function ChatPage() {
           </section>
 
           <div className="guide-actions">
-            <button className="btn btn-danger" onClick={onClickFinish} disabled={isFinished}>
+            <button className="btn btn-danger" onClick={onClickFinish} disabled={isFinished || !readyAttemptId}>
               Finish / End Session
             </button>
           </div>

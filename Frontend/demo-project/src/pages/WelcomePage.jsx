@@ -10,23 +10,40 @@ export default function WelcomePage() {
   return (
     <div className="welcome-container">
       <div className="welcome-card">
-        <h1 className="welcome-title">Welcome to Prompt Injection Demo</h1>
+        <div className="page-progress">
+          <span className="progress-step progress-step-active">Welcome</span>
+          <span className="progress-step">Learning</span>
+          <span className="progress-step">Challenge</span>
+          <span className="progress-step">Feedback</span>
+        </div>
 
-        <section className="welcome-section">
-          <h2>About This System</h2>
-          <p>
-            Welcome to the Prompt Injection Demo. This system is an educational and research-based platform designed
-            to raise awareness about security risks in AI systems, particularly Large Language Models.
+        <section className="focus-hero">
+          <p className="focus-kicker">Prompt Injection Awareness Demo</p>
+          <h1 className="welcome-title">Understand AI Security Risks Before You Begin</h1>
+          <p className="focus-lead">
+            This demo helps you explore how user prompts can influence AI behavior, and why prompt injection is an
+            emerging security concern in modern AI-integrated systems.
           </p>
-          <p>
-            You will explore how AI systems can be influenced by user input and why this presents emerging
-            cybersecurity concerns. This demo is designed for academic research and educational purposes.
-          </p>
+          <div className="focus-meta">
+            <div className="focus-meta-card">
+              <span className="focus-meta-label">Purpose</span>
+              <span className="focus-meta-value">Education and research</span>
+            </div>
+            <div className="focus-meta-card">
+              <span className="focus-meta-label">Flow</span>
+              <span className="focus-meta-value">Welcome -&gt; Learn -&gt; Challenge -&gt; Feedback</span>
+            </div>
+            <div className="focus-meta-card">
+              <span className="focus-meta-label">Data</span>
+              <span className="focus-meta-value">Anonymized attempt tracking</span>
+            </div>
+          </div>
         </section>
 
         <section className="welcome-section">
           <h2>System Structure</h2>
-          <article className="welcome-part">
+          <div className="welcome-structure-grid">
+            <article className="welcome-part">
             <h3>Learn</h3>
             <p>You will first review short educational material introducing:</p>
             <ul className="welcome-list">
@@ -35,9 +52,9 @@ export default function WelcomePage() {
               <li>Simple examples of how attacks may occur</li>
             </ul>
             <p>This section prepares you before interacting with the system.</p>
-          </article>
+            </article>
 
-          <article className="welcome-part">
+            <article className="welcome-part">
             <h3>Challenge</h3>
             <p>You will then interact with a chatbot protected by basic guardrails. Your goal:</p>
             <ul className="welcome-list">
@@ -46,9 +63,9 @@ export default function WelcomePage() {
               <li>Observe how the AI responds to adversarial inputs</li>
             </ul>
             <p>This simulates how attackers may attempt to manipulate AI systems.</p>
-          </article>
+            </article>
 
-          <article className="welcome-part">
+            <article className="welcome-part">
             <h3>Feedback</h3>
             <p>After completing or ending your attempt:</p>
             <ul className="welcome-list">
@@ -58,7 +75,8 @@ export default function WelcomePage() {
               <li>Your responses will help identify educational clarity.</li>
               <li>Your responses will help identify desired features for future development.</li>
             </ul>
-          </article>
+            </article>
+          </div>
         </section>
 
         <section className="welcome-section">
@@ -71,27 +89,46 @@ export default function WelcomePage() {
           <p>The findings contribute to research in AI security and secure system design.</p>
         </section>
 
-        <section className="welcome-section">
+        <section className="welcome-section welcome-dual-grid">
           <h2>Data Collection and Privacy</h2>
-          <p>Please read carefully:</p>
-          <ul className="welcome-list">
-            <li>Your prompts, system responses, timestamps, and progression data will be recorded.</li>
-            <li>No personal information is required to participate.</li>
-            <li>Data is anonymized using a system-generated attempt ID.</li>
-            <li>Collected data is used strictly for academic research and analysis.</li>
-            <li>You may stop participating at any time by clicking Finish / End Session.</li>
-          </ul>
-          <p>By proceeding, you consent to the collection and use of your interaction data for research purposes.</p>
+          <div className="dual-grid-content">
+            <div className="welcome-note-card">
+              <h3>What is collected</h3>
+              <ul className="welcome-list">
+                <li>Your prompts, system responses, timestamps, and progression data are recorded.</li>
+                <li>No personal information is required to participate.</li>
+                <li>Data is anonymized using a system-generated attempt ID.</li>
+              </ul>
+            </div>
+            <div className="welcome-note-card">
+              <h3>How it is used</h3>
+              <ul className="welcome-list">
+                <li>Collected data is used strictly for academic research and analysis.</li>
+                <li>You may stop participating at any time by clicking Finish / End Session.</li>
+                <li>By proceeding, you consent to this research usage.</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
-        <section className="welcome-section">
+        <section className="welcome-section welcome-dual-grid">
           <h2>Important Notes</h2>
-          <ul className="welcome-list">
-            <li>This is a controlled demo environment.</li>
-            <li>The chatbot behavior is intentionally limited.</li>
-            <li>The objective is educational and not to encourage misuse of AI systems.</li>
-            <li>Please do not attempt to use techniques learned here against real-world systems.</li>
-          </ul>
+          <div className="dual-grid-content">
+            <div className="welcome-note-card">
+              <h3>Environment constraints</h3>
+              <ul className="welcome-list">
+                <li>This is a controlled demo environment.</li>
+                <li>The chatbot behavior is intentionally limited.</li>
+              </ul>
+            </div>
+            <div className="welcome-note-card">
+              <h3>Ethical use</h3>
+              <ul className="welcome-list">
+                <li>The objective is educational and not to encourage misuse of AI systems.</li>
+                <li>Please do not attempt to use techniques learned here against real-world systems.</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
         <section className="welcome-section">
@@ -104,9 +141,9 @@ export default function WelcomePage() {
           </ul>
         </section>
 
-        <div className="welcome-actions">
+        <div className="welcome-actions page-actions">
           <button className="btn btn-primary welcome-cta" onClick={handleContinue}>
-            Continue
+            Continue to Learning
           </button>
         </div>
       </div>
