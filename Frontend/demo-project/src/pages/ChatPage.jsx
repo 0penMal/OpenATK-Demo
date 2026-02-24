@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import ChatMessage from "../components/ChatMessage";
 import ChatInput from "../components/ChatInput";
@@ -7,6 +7,8 @@ import LevelPanel from "../components/LevelPanel";
 import PswdPanel from "../components/PswdPanel";
 
 const API = "http://127.0.0.1:8000";
+const CHALLENGE_ACCESS_KEY = "challenge_access";
+const ATTEMPT_STARTING_KEY = "attempt_starting";
 
 function FinishModal({ open, onCancel, onConfirm }) {
   if (!open) return null;
@@ -33,6 +35,7 @@ function FinishModal({ open, onCancel, onConfirm }) {
 }
 
 export default function ChatPage() {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [attemptId, setAttemptId] = useState(() => sessionStorage.getItem("attempt_id") || null);
@@ -46,9 +49,16 @@ export default function ChatPage() {
 
   const [finishModalOpen, setFinishModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (location.state?.fromLearning) {
+      sessionStorage.setItem(CHALLENGE_ACCESS_KEY, "granted");
+    }
+  }, [location.state]);
+
   // Start attempt on page load (only if we don't already have one in sessionStorage)
   useEffect(() => {
     let cancelled = false;
+    const hasChallengeAccess = sessionStorage.getItem(CHALLENGE_ACCESS_KEY) === "granted";
 
     async function startAttempt() {
       try {
@@ -60,15 +70,26 @@ export default function ChatPage() {
         sessionStorage.setItem("attempt_id", data.attempt_id);
       } catch (e) {
         console.error("Failed to start attempt:", e);
+      } finally {
+        sessionStorage.removeItem(ATTEMPT_STARTING_KEY);
       }
     }
 
-    if (!attemptId) startAttempt();
+    if (!hasChallengeAccess && !attemptId) {
+      navigate("/", { replace: true });
+      return;
+    }
+
+    if (!attemptId) {
+      if (sessionStorage.getItem(ATTEMPT_STARTING_KEY) === "1") return;
+      sessionStorage.setItem(ATTEMPT_STARTING_KEY, "1");
+      startAttempt();
+    }
 
     return () => {
       cancelled = true;
     };
-  }, [attemptId]);
+  }, [attemptId, navigate]);
 
   // Load level description
   useEffect(() => {

@@ -132,6 +132,94 @@ body {
   backdrop-filter: blur(8px);
 }
 
+.learning-container {
+  width: min(1080px, 100%);
+  align-self: start;
+}
+
+.learning-card {
+  padding: clamp(20px, 4vw, 36px);
+  border-radius: var(--radius-card);
+  background: linear-gradient(165deg, rgba(18, 30, 47, 0.86), rgba(9, 18, 31, 0.94));
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-lg);
+}
+
+.learning-title {
+  margin: 0 0 8px;
+  font-size: clamp(1.7rem, 1.45rem + 1vw, 2.25rem);
+  letter-spacing: -0.02em;
+}
+
+.learning-intro {
+  margin: 0;
+  max-width: 78ch;
+  color: #d7e5f7;
+}
+
+.learning-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.learning-section h2 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+.learning-section h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.learning-section p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.46;
+}
+
+.learning-list {
+  margin: 10px 0 12px;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.learning-list li {
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.learning-example {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(14, 27, 45, 0.78);
+  display: grid;
+  gap: 10px;
+}
+
+.learning-prompt {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(240, 185, 11, 0.3);
+  background: rgba(240, 185, 11, 0.08);
+  color: #f8e6b1;
+}
+
+.learning-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.learning-cta {
+  min-width: 176px;
+}
+
 .page-header {
   display: flex;
   align-items: center;
@@ -380,6 +468,10 @@ button:disabled {
     gap: 14px;
   }
 
+  .learning-card {
+    border-radius: 18px;
+  }
+
   .panel {
     padding: 14px;
   }
@@ -400,6 +492,18 @@ button:disabled {
 
   .guide-card {
     padding: 14px;
+  }
+
+  .learning-card {
+    padding: 16px;
+  }
+
+  .learning-actions {
+    justify-content: stretch;
+  }
+
+  .learning-cta {
+    width: 100%;
   }
 
   .guide-actions .btn {
