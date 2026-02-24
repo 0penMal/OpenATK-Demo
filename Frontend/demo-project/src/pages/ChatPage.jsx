@@ -12,34 +12,20 @@ function FinishModal({ open, onCancel, onConfirm }) {
   if (!open) return null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.6)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 9999,
-      }}
-    >
-      <div
-        style={{
-          width: "min(520px, 92vw)",
-          background: "#111",
-          border: "1px solid #333",
-          borderRadius: 12,
-          padding: 16,
-        }}
-      >
-        <h3 style={{ marginTop: 0 }}>End session?</h3>
-        <p style={{ marginBottom: 16, lineHeight: 1.4 }}>
-          Are you sure you want to finish your attempt? You won’t be able to continue after ending.
+    <div className="finish-modal-backdrop">
+      <div className="finish-modal">
+        <h3 className="finish-modal-title">End session?</h3>
+        <p className="finish-modal-text">
+          Are you sure you want to finish your attempt? You won't be able to continue after ending.
         </p>
 
-        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-          <button onClick={onCancel}>Cancel</button>
-          <button onClick={onConfirm}>Yes, Finish</button>
+        <div className="finish-modal-actions">
+          <button className="btn btn-subtle" onClick={onCancel}>
+            Cancel
+          </button>
+          <button className="btn btn-danger" onClick={onConfirm}>
+            Yes, finish
+          </button>
         </div>
       </div>
     </div>
@@ -181,10 +167,12 @@ export default function ChatPage() {
 
   return (
     <div className="app-container">
-      <h2>Chat Demo</h2>
+      <div className="page-header">
+        <h2 className="page-title">Chat Demo</h2>
+      </div>
 
-      <div style={{ marginBottom: 12 }}>
-        <button onClick={onClickFinish} disabled={isFinished}>
+      <div className="top-actions">
+        <button className="btn btn-danger" onClick={onClickFinish} disabled={isFinished}>
           Finish / End Session
         </button>
       </div>
@@ -203,14 +191,16 @@ export default function ChatPage() {
 
       {!isFinished && <PswdPanel onSubmit={handlePasswordTry} />}
 
-      {messages.map((m, index) => (
-        <ChatMessage key={index} role={m.role} text={m.text} />
-      ))}
+      <div className="chat-window">
+        {messages.map((m, index) => (
+          <ChatMessage key={index} role={m.role} text={m.text} />
+        ))}
+      </div>
 
       {!isFinished && <ChatInput onSend={handleSend} />}
 
       {isFinished && finishStats && (
-        <div style={{ marginTop: 16 }}>
+        <div className="session-finished">
           <strong>Session finished.</strong>
         </div>
       )}

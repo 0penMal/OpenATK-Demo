@@ -4,13 +4,14 @@ function ChatInput( {onSend} ){
     const[text, setText] = useState("");
 
     return(
-        <div>
-            <input className = "chatinput"
+        <div className="chat-input-row">
+            <input
+                className="chat-input"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Type something..."
             />
-            <button onClick={() => onSend(text)}>Send</button>
+            <button className="btn btn-primary" onClick={() => onSend(text)}>Send</button>
         </div>
     );
 }

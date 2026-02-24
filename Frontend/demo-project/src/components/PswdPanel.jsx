@@ -7,13 +7,14 @@ export default function PaswdPanel({onSubmit}){
         <div className="panel">
             <div className="section-title">Password Attempt</div>
 
-            <div className="row">
+            <div className="row password-row">
                 <input
+                    className="password-input"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password..."
                 />
-                <button onClick={() => onSubmit(password)}>Try</button>
+                <button className="btn btn-primary" onClick={() => onSubmit(password)}>Try</button>
             </div>
         </div>
     )
