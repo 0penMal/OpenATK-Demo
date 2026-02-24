@@ -54,8 +54,73 @@ body {
   padding: clamp(16px, 4vw, 36px);
 }
 
+.workspace-layout {
+  width: min(1320px, 100%);
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(560px, 1.4fr);
+  gap: clamp(14px, 2vw, 24px);
+  align-items: start;
+}
+
+.guide-panel {
+  position: sticky;
+  top: 18px;
+}
+
+.guide-card {
+  padding: clamp(16px, 2.2vw, 26px);
+  border-radius: var(--radius-card);
+  background: linear-gradient(165deg, rgba(18, 30, 47, 0.86), rgba(9, 18, 31, 0.94));
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(8px);
+}
+
+.guide-title {
+  margin: 0 0 14px;
+  font-size: clamp(1.06rem, 0.96rem + 0.55vw, 1.3rem);
+  letter-spacing: -0.01em;
+}
+
+.guide-section + .guide-section {
+  margin-top: 18px;
+}
+
+.guide-section h3 {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c8d8ee;
+}
+
+.guide-section p {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: #d8e4f5;
+}
+
+.guide-section ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.guide-section li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.guide-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-start;
+}
+
 .app-container {
-  width: min(860px, 100%);
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -78,10 +143,6 @@ body {
   font-size: clamp(1.7rem, 1.3rem + 1.15vw, 2.3rem);
   letter-spacing: -0.02em;
   line-height: 1.08;
-}
-
-.top-actions {
-  margin-top: -4px;
 }
 
 .panel {
@@ -302,6 +363,18 @@ button:disabled {
 }
 
 @media (max-width: 800px) {
+  .workspace-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-panel {
+    position: static;
+  }
+
+  .guide-card {
+    border-radius: 18px;
+  }
+
   .app-container {
     border-radius: 18px;
     gap: 14px;
@@ -319,6 +392,18 @@ button:disabled {
 @media (max-width: 620px) {
   #root {
     padding: 12px;
+  }
+
+  .workspace-layout {
+    gap: 10px;
+  }
+
+  .guide-card {
+    padding: 14px;
+  }
+
+  .guide-actions .btn {
+    width: 100%;
   }
 
   .app-container {

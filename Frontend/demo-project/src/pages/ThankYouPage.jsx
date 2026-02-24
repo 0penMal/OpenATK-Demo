@@ -22,11 +22,14 @@ export default function ThankYouPage(){
     <div className="app-container">
       <h2>Thank you!</h2>
       <p style={{ lineHeight: 1.5 }}>
-        Thanks for trying the demo. Please complete the short Google Form survey.
+        Thanks for trying the demo. Please follow the instructions below to complete the feedback form.
       </p>
 
       <div style={{ marginTop: 16 }}>
         <h3 style={{ marginBottom: 8 }}>Step 1: Copy your ID</h3>
+        <p style={{ lineHeight: 1.5 }}>
+          This annonymous ID will be used to help correlate analysis between the feedback form and data collected from your attempt.
+        </p>
 
         <div
           style={{
