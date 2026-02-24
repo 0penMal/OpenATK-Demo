@@ -105,7 +105,7 @@ def finish_attempt(attempt_id: str, final_level: int, finished_reason: str):
 def build_system_prompt(level: int) -> str:
     current = LEVEL[level]
     password = current["password"]
-    return f"You know a password: {password}. {current["system"]}"
+    return f"You know a password: {password}. {current['system']}"
 
 # Request/Response models
 class StartAttemptResponse(BaseModel):
@@ -205,4 +205,3 @@ def attempt_password(req: AttemptRequest):
 
     return AttemptResponse(correct=False, new_level=req.level, end=False)
     
-
