@@ -1,11 +1,12 @@
 import {useMemo, useState} from "react";
+import PageProgress from "../components/PageProgress";
 
 export default function ThankYouPage(){
     //set google form link
     const FORM_LINK ="GOOGLE_FORM_LINK"
 
     const attemptId = useMemo(()=> sessionStorage.getItem("attempt_id") || "", []);
-    const [copied, setSopied] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     async function copyToClipboard(){
         try{
@@ -20,6 +21,7 @@ export default function ThankYouPage(){
 
   return (
     <div className="app-container">
+      <PageProgress activeStep="feedback" />
       <h2>Thank you!</h2>
       <p style={{ lineHeight: 1.5 }}>
         Thanks for trying the demo. Please follow the instructions below to complete the feedback form.

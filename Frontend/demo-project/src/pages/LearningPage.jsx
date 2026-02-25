@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import PageProgress from "../components/PageProgress";
 
 export default function LearningPage() {
   const navigate = useNavigate();
@@ -11,12 +12,7 @@ export default function LearningPage() {
   return (
     <div className="learning-container">
       <div className="learning-card">
-        <div className="page-progress">
-          <span className="progress-step">Welcome</span>
-          <span className="progress-step progress-step-active">Learning</span>
-          <span className="progress-step">Challenge</span>
-          <span className="progress-step">Feedback</span>
-        </div>
+        <PageProgress activeStep="learning" />
 
         <section className="focus-hero">
           <p className="focus-kicker">Learning Material</p>

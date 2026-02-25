@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import PageProgress from "../components/PageProgress";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -10,12 +11,7 @@ export default function WelcomePage() {
   return (
     <div className="welcome-container">
       <div className="welcome-card">
-        <div className="page-progress">
-          <span className="progress-step progress-step-active">Welcome</span>
-          <span className="progress-step">Learning</span>
-          <span className="progress-step">Challenge</span>
-          <span className="progress-step">Feedback</span>
-        </div>
+        <PageProgress activeStep="welcome" />
 
         <section className="focus-hero">
           <p className="focus-kicker">Prompt Injection Awareness Demo</p>

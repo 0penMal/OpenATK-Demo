@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ChatMessage from "../components/ChatMessage";
 import ChatInput from "../components/ChatInput";
 import LevelPanel from "../components/LevelPanel";
+import PageProgress from "../components/PageProgress";
 import PswdPanel from "../components/PswdPanel";
 
 const API = "http://127.0.0.1:8000";
@@ -221,19 +222,6 @@ export default function ChatPage() {
             </ul>
           </section>
 
-          <section className="guide-section">
-            <h3>Consent &amp; Data Collection</h3>
-            <ul>
-              <li>By participating, you consent to your interaction data being recorded.</li>
-              <li>
-                Data collected may include prompts submitted, chatbot responses, timestamps, level progression, and
-                attempt duration.
-              </li>
-              <li>No personally identifiable information is required.</li>
-              <li>Collected data will be used strictly for academic research and system analysis purposes.</li>
-            </ul>
-          </section>
-
           <div className="guide-actions">
             <button className="btn btn-danger" onClick={onClickFinish} disabled={isFinished || !readyAttemptId}>
               Finish / End Session
@@ -243,6 +231,7 @@ export default function ChatPage() {
       </aside>
 
       <div className="app-container">
+        <PageProgress activeStep="challenge" />
         <div className="page-header">
           <h2 className="page-title">Chat Demo</h2>
         </div>
