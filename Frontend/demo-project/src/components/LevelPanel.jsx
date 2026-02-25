@@ -1,8 +1,10 @@
-export default function LevelPanel({level, description}){
-    return(
-        <div className="panel">
-            <div className="level-title">Level {level}</div>
-            <div className="level-desc">{description}</div>
-        </div>
-    )
+export default function LevelPanel({ level, description, totalLevels = 3, allCompleted = false }) {
+  return (
+    <div className="panel">
+      <div className="level-header">
+        <div className="level-title">{allCompleted ? "All levels completed" : `Level ${level}/${totalLevels}`}</div>
+      </div>
+      <div className="level-desc">{description}</div>
+    </div>
+  );
 }

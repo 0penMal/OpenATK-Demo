@@ -235,8 +235,8 @@ body {
 }
 
 .welcome-section {
-  margin-top: 22px;
-  padding-top: 18px;
+  margin-top: 18px;
+  padding-top: 14px;
   border-top: 1px solid var(--border-soft);
 }
 
@@ -254,10 +254,10 @@ body {
 }
 
 .welcome-list {
-  margin: 10px 0 12px;
+  margin: 8px 0 10px;
   padding-left: 18px;
   display: grid;
-  gap: 7px;
+  gap: 6px;
 }
 
 .welcome-list li {
@@ -338,8 +338,8 @@ body {
 }
 
 .learning-section {
-  margin-top: 22px;
-  padding-top: 18px;
+  margin-top: 18px;
+  padding-top: 14px;
   border-top: 1px solid var(--border-soft);
 }
 
@@ -363,10 +363,10 @@ body {
 }
 
 .learning-list {
-  margin: 10px 0 12px;
+  margin: 8px 0 10px;
   padding-left: 18px;
   display: grid;
-  gap: 7px;
+  gap: 6px;
 }
 
 .learning-list li {
@@ -393,13 +393,13 @@ body {
 }
 
 .learning-example {
-  margin-top: 14px;
-  padding: 14px;
+  margin-top: 10px;
+  padding: 12px;
   border-radius: 14px;
   border: 1px solid rgba(125, 163, 211, 0.22);
   background: rgba(11, 24, 38, 0.86);
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .learning-example-grid {
@@ -409,7 +409,7 @@ body {
 }
 
 .learning-example-block {
-  padding: 11px 12px;
+  padding: 10px 11px;
   border-radius: 12px;
   border: 1px solid rgba(115, 152, 195, 0.24);
   background: rgba(14, 30, 49, 0.88);
@@ -440,9 +440,41 @@ body {
 }
 
 .page-actions {
-  margin-top: 24px;
+  margin-top: 18px;
   padding-top: 12px;
   border-top: 1px solid var(--border-soft);
+}
+
+.learning-optional {
+  border: 1px solid rgba(115, 152, 195, 0.24);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(11, 24, 38, 0.7);
+}
+
+.learning-optional > summary {
+  cursor: pointer;
+  color: #c7dbf3;
+  font-weight: 600;
+  list-style: none;
+}
+
+.learning-optional > summary::-webkit-details-marker {
+  display: none;
+}
+
+.learning-optional > summary::before {
+  content: "+";
+  margin-right: 8px;
+  color: #8eb3de;
+}
+
+.learning-optional[open] > summary::before {
+  content: "-";
+}
+
+.learning-optional[open] > summary {
+  margin-bottom: 10px;
 }
 
 .learning-actions {
@@ -482,9 +514,42 @@ body {
   margin-bottom: 6px;
 }
 
+.level-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .level-desc {
   color: var(--text-muted);
   line-height: 1.5;
+}
+
+.challenge-notice {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.challenge-notice-success {
+  color: #d7fff8;
+  background: rgba(22, 134, 122, 0.2);
+  border-color: rgba(50, 215, 193, 0.45);
+}
+
+.challenge-notice-complete {
+  color: #eafce0;
+  background: rgba(99, 163, 40, 0.2);
+  border-color: rgba(151, 225, 76, 0.48);
+}
+
+.challenge-notice-error {
+  color: #ffe2e2;
+  background: rgba(177, 56, 56, 0.2);
+  border-color: rgba(247, 104, 104, 0.48);
 }
 
 .section-title {

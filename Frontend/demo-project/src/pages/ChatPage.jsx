@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ChatMessage from "../components/ChatMessage";
@@ -9,6 +9,7 @@ import PswdPanel from "../components/PswdPanel";
 
 const API = "http://127.0.0.1:8000";
 const CHALLENGE_ACCESS_KEY = "challenge_access";
+const TOTAL_LEVELS = 3;
 
 function FinishModal({ open, onCancel, onConfirm }) {
   if (!open) return null;
@@ -43,12 +44,15 @@ export default function ChatPage() {
   const [level, setLevel] = useState(1);
   const [levelDesc, setLevelDesc] = useState("");
   const [messages, setMessages] = useState([{ role: "bot", text: "Hi! Ask me anything." }]);
+  const [allLevelsCompleted, setAllLevelsCompleted] = useState(false);
+  const [challengeNotice, setChallengeNotice] = useState(null);
 
   const [isFinished, setIsFinished] = useState(false);
   const [finishStats, setFinishStats] = useState(null);
 
   const [finishModalOpen, setFinishModalOpen] = useState(false);
   const readyAttemptId = attemptId || sessionStorage.getItem("attempt_id");
+  const chatWindowRef = useRef(null);
 
   useEffect(() => {
     if (location.state?.fromLearning) {
@@ -103,21 +107,30 @@ export default function ChatPage() {
     loadLevel();
   }, [level]);
 
+  useEffect(() => {
+    const chatWindow = chatWindowRef.current;
+    if (!chatWindow) return;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }, [messages]);
+
   async function handleSend(prompt) {
     if (isFinished) return;
     const activeAttemptId = readyAttemptId;
+    const trimmedPrompt = prompt.trim();
+
+    if (!trimmedPrompt) return;
 
     if (!activeAttemptId) {
       setMessages((prev) => [...prev, { role: "bot", text: "Starting session… try again in a moment." }]);
       return;
     }
 
-    setMessages((prev) => [...prev, { role: "user", text: prompt }]);
+    setMessages((prev) => [...prev, { role: "user", text: trimmedPrompt }]);
 
     const res = await fetch(`${API}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ level: Number(level), prompt, attempt_id: activeAttemptId }),
+      body: JSON.stringify({ level: Number(level), prompt: trimmedPrompt, attempt_id: activeAttemptId }),
     });
 
     const data = await res.json(); // { output: "..." }
@@ -126,27 +139,37 @@ export default function ChatPage() {
 
   async function handlePasswordTry(guess) {
     if (isFinished) return;
+    const trimmedGuess = guess.trim();
+    if (!trimmedGuess) return;
 
     const res = await fetch(`${API}/attempt`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ level, guess }),
+      body: JSON.stringify({ level, guess: trimmedGuess }),
     });
 
     const data = await res.json(); // { correct, new_level, end }
 
     if (data.correct) {
-      setMessages((prev) => [...prev, { role: "bot", text: "Correct! Level up." }]);
+      const hasCompletedAll = Boolean(data.end);
+      setAllLevelsCompleted(hasCompletedAll);
       setLevel(data.new_level);
+      if (hasCompletedAll) {
+        setChallengeNotice({
+          type: "complete",
+          text: "All levels completed. You can end the session any time using Finish.",
+        });
+        setMessages((prev) => [...prev, { role: "bot", text: "All levels completed." }]);
+      } else {
+        setChallengeNotice({
+          type: "success",
+          text: `Correct password. You advanced to Level ${data.new_level}/${TOTAL_LEVELS}.`,
+        });
+        setMessages((prev) => [...prev, { role: "bot", text: "Correct password! Level up." }]);
+      }
     } else {
+      setChallengeNotice({ type: "error", text: "Wrong password. Try again." });
       setMessages((prev) => [...prev, { role: "bot", text: "Wrong password. Try again." }]);
-    }
-
-    if (data.end) {
-      setMessages((prev) => [
-        ...prev,
-        { role: "bot", text: "You completed all levels! You can end the session anytime using Finish." },
-      ]);
     }
   }
 
@@ -197,28 +220,13 @@ export default function ChatPage() {
           <h2 className="guide-title">Participant Guide</h2>
 
           <section className="guide-section">
-            <h3>Instructions</h3>
-            <p>Welcome to the Prompt Injection Challenge.</p>
+            <h3>Quick Rules</h3>
             <ul>
-              <li>Your goal is to interact with the chatbot and attempt to discover the hidden password.</li>
-              <li>You may send prompts to the chatbot to test its guardrails.</li>
-              <li>
-                If you believe you have found the password, enter it in the Password Attempt field and click Try.
-              </li>
-              <li>There are 3 levels, by entering the correct password you will automatically level up.</li>
-              <li>You may click Finish / End Session at any time to end your attempt.</li>
-              <li>There is no penalty for incorrect attempts. Explore freely.</li>
-            </ul>
-          </section>
-
-          <section className="guide-section">
-            <h3>Important Notes</h3>
-            <ul>
-              <li>
-                This is a research/demo system designed to study prompt injection and AI security behaviors.
-              </li>
-              <li>The chatbot may refuse certain requests as part of its guardrail design.</li>
-              <li>You are encouraged to experiment with different prompt strategies.</li>
+              <li>Try prompts that test the chatbot’s guardrails.</li>
+              <li>When you think you found a password, enter it and press Try.</li>
+              <li>There are 3 levels; each correct password moves you to the next level.</li>
+              <li>Wrong attempts have no penalty, so feel free to experiment.</li>
+              <li>You can press Finish / End Session at any time.</li>
             </ul>
           </section>
 
@@ -241,16 +249,24 @@ export default function ChatPage() {
           onCancel={() => setFinishModalOpen(false)}
           onConfirm={() => {
             setFinishModalOpen(false);
-            // you can choose reason based on whether they reached level 3, etc.
-            finishAttempt(level >= 3 ? "completed_or_user_finish" : "user_finish");
+            finishAttempt(allLevelsCompleted ? "completed_or_user_finish" : "user_finish");
           }}
         />
 
-        <LevelPanel level={level} description={levelDesc} />
+        <LevelPanel
+          level={level}
+          description={levelDesc}
+          totalLevels={TOTAL_LEVELS}
+          allCompleted={allLevelsCompleted}
+        />
+
+        {challengeNotice && (
+          <div className={`challenge-notice challenge-notice-${challengeNotice.type}`}>{challengeNotice.text}</div>
+        )}
 
         {!isFinished && <PswdPanel onSubmit={handlePasswordTry} />}
 
-        <div className="chat-window">
+        <div className="chat-window" ref={chatWindowRef}>
           {messages.map((m, index) => (
             <ChatMessage key={index} role={m.role} text={m.text} />
           ))}
