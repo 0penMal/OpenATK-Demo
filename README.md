@@ -7,8 +7,10 @@ Small full‑stack demo for experimenting with “levels” of prompt guardrails
 
 ## Repo layout
 
-- `app.py` — FastAPI API server
-- `database_test.py` — quick DB connectivity check
+- `Backend/app.py` — FastAPI API server
+- `Backend/database_test.py` — quick DB connectivity check
+- `Backend/requirements.txt` — backend Python dependencies
+- `Backend/pyproject.toml`, `Backend/uv.lock` — backend project metadata/lockfile
 - `Frontend/demo-project/` — React app
 
 ## Prerequisites
@@ -25,7 +27,7 @@ Small full‑stack demo for experimenting with “levels” of prompt guardrails
 Create an environment file:
 
 ```bash
-cp .env.example .env
+cp Backend/.env.example Backend/.env
 ```
 
 Set:
@@ -36,6 +38,7 @@ Set:
 Install Python deps and run the API:
 
 ```bash
+cd Backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -90,7 +93,7 @@ Open `http://localhost:5173`.
 ## Configuration
 
 - **Frontend API base URL:** hardcoded as `API = "http://127.0.0.1:8000"` in `Frontend/demo-project/src/pages/ChatPage.jsx`.
-- **CORS:** backend allows `http://localhost:5173` in `app.py`. If you change the frontend origin (or deploy), update `allow_origins`.
+- **CORS:** backend allows `http://localhost:5173` in `Backend/app.py`. If you change the frontend origin (or deploy), update `allow_origins`.
 
 ## API endpoints
 
@@ -102,5 +105,5 @@ Open `http://localhost:5173`.
 
 ## Security notes
 
-- Never commit `.env` (it contains secrets). Use `.env.example` for templates.
+- Never commit `.env` (it contains secrets). Use `Backend/.env.example` for templates.
 - If an API key or DB password was ever committed/shared, rotate it immediately.
