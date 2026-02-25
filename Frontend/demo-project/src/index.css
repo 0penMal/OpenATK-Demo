@@ -65,6 +65,13 @@ body {
 .guide-panel {
   position: sticky;
   top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.guide-panel .page-progress {
+  margin-bottom: 0;
 }
 
 .guide-card {
@@ -117,6 +124,57 @@ body {
   margin-top: 18px;
   display: flex;
   justify-content: flex-start;
+}
+
+.hint-card {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(12, 25, 41, 0.84);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  gap: 10px;
+}
+
+.hint-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.hint-text {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.45;
+  font-size: 0.9rem;
+}
+
+.hint-button {
+  justify-self: flex-start;
+}
+
+.hint-result {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(125, 163, 211, 0.23);
+  background: rgba(14, 30, 49, 0.88);
+  color: #d7e7fa;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.hint-error {
+  margin: 0;
+  color: #ffd2d2;
+  font-size: 0.88rem;
+}
+
+.hint-tip {
+  margin: 0;
+  color: #a8bfdc;
+  font-size: 0.83rem;
+  line-height: 1.4;
 }
 
 .app-container {
@@ -523,6 +581,30 @@ body {
 .level-desc {
   color: var(--text-muted);
   line-height: 1.5;
+}
+
+.level-desc-block {
+  margin-top: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(107, 165, 240, 0.35);
+  background: linear-gradient(160deg, rgba(23, 50, 82, 0.58), rgba(14, 30, 49, 0.9));
+}
+
+.level-desc-label {
+  margin-bottom: 6px;
+  color: #9fc2ea;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-desc-highlight {
+  color: #ecf4ff;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .challenge-notice {

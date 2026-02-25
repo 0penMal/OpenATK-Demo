@@ -165,6 +165,12 @@ def get_level(level: int):
         raise HTTPException(status_code=404, detail="Level not found")
     return {"level": level, "desc": LEVEL[level]["desc"]}
 
+@app.get("/level/{level}/hint")
+def get_level_hint(level: int):
+    if level not in LEVEL:
+        raise HTTPException(status_code=404, detail="Level not found")
+    return {"level": level, "system_prompt": LEVEL[level]["system"]}
+
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):

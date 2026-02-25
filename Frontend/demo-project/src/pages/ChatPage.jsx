@@ -46,6 +46,10 @@ export default function ChatPage() {
   const [messages, setMessages] = useState([{ role: "bot", text: "Hi! Ask me anything." }]);
   const [allLevelsCompleted, setAllLevelsCompleted] = useState(false);
   const [challengeNotice, setChallengeNotice] = useState(null);
+  const [hintLoading, setHintLoading] = useState(false);
+  const [hintError, setHintError] = useState("");
+  const [hintText, setHintText] = useState("");
+  const [hintVisible, setHintVisible] = useState(false);
 
   const [isFinished, setIsFinished] = useState(false);
   const [finishStats, setFinishStats] = useState(null);
@@ -108,10 +112,46 @@ export default function ChatPage() {
   }, [level]);
 
   useEffect(() => {
+    setHintVisible(false);
+    setHintError("");
+    setHintText("");
+  }, [level]);
+
+  useEffect(() => {
     const chatWindow = chatWindowRef.current;
     if (!chatWindow) return;
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }, [messages]);
+
+  async function handleToggleHint() {
+    if (hintLoading) return;
+
+    if (hintVisible) {
+      setHintVisible(false);
+      return;
+    }
+
+    if (hintText) {
+      setHintVisible(true);
+      return;
+    }
+
+    setHintLoading(true);
+    setHintError("");
+
+    try {
+      const res = await fetch(`${API}/level/${level}/hint`);
+      if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+      const data = await res.json();
+      setHintText(data.system_prompt || "");
+      setHintVisible(true);
+    } catch (error) {
+      console.error("Failed to load hint:", error);
+      setHintError("Could not load hint right now. Please try again.");
+    } finally {
+      setHintLoading(false);
+    }
+  }
 
   async function handleSend(prompt) {
     if (isFinished) return;
@@ -216,6 +256,8 @@ export default function ChatPage() {
   return (
     <div className="workspace-layout">
       <aside className="guide-panel">
+        <PageProgress activeStep="challenge" />
+
         <div className="guide-card">
           <h2 className="guide-title">Participant Guide</h2>
 
@@ -236,10 +278,25 @@ export default function ChatPage() {
             </button>
           </div>
         </div>
+
+        <div className="hint-card">
+          <div className="hint-title">Need a hint?</div>
+          <p className="hint-text">
+            If you are having trouble in getting the password, reveal this hint to see the current level&apos;s system
+            prompt.
+          </p>
+          <button className="btn btn-subtle hint-button" onClick={handleToggleHint} disabled={hintLoading}>
+            {hintLoading ? "Revealing..." : hintVisible ? "Hide Hint" : "Reveal Hint"}
+          </button>
+          {hintError && <p className="hint-error">{hintError}</p>}
+          {hintVisible && hintText && <div className="hint-result">{hintText}</div>}
+          <p className="hint-tip">
+            Tip: Compare the prompts between levels. Even simple guardrail changes can greatly improve LLM security.
+          </p>
+        </div>
       </aside>
 
       <div className="app-container">
-        <PageProgress activeStep="challenge" />
         <div className="page-header">
           <h2 className="page-title">Chat Demo</h2>
         </div>

@@ -3,7 +3,7 @@ import PageProgress from "../components/PageProgress";
 
 export default function ThankYouPage(){
     //set google form link
-    const FORM_LINK ="GOOGLE_FORM_LINK"
+    const FORM_LINK ="https://docs.google.com/forms/d/e/1FAIpQLScr9MXixAjxOSMnq-sAWEeI-yrRSgRuwRRghb_siZDo32swwA/viewform?usp=header"
 
     const attemptId = useMemo(()=> sessionStorage.getItem("attempt_id") || "", []);
     const [copied, setCopied] = useState(false);

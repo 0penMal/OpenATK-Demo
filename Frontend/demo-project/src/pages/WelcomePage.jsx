@@ -36,26 +36,6 @@ export default function WelcomePage() {
         </section>
 
         <section className="welcome-section">
-          <h2>System Structure</h2>
-          <div className="welcome-structure-grid">
-            <article className="welcome-part">
-              <h3>Learn</h3>
-              <p>Read a short primer on prompt injection and common attack patterns.</p>
-            </article>
-
-            <article className="welcome-part">
-              <h3>Challenge</h3>
-              <p>Test prompts against guardrails and try to discover the hidden password.</p>
-            </article>
-
-            <article className="welcome-part">
-              <h3>Feedback</h3>
-              <p>Copy your attempt ID and submit the follow-up form after finishing.</p>
-            </article>
-          </div>
-        </section>
-
-        <section className="welcome-section">
           <h2>Data Collection and Privacy</h2>
           <div className="welcome-note-card">
             <ul className="welcome-list">
