@@ -12,8 +12,15 @@ from pydantic import BaseModel
 
 #Load env variables
 load_dotenv()
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-DB_URL = os.getenv("DATABASE_URL")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+if not OPENAI_API_KEY:
+    raise RuntimeError("Missing required environment variable: OPENAI_API_KEY")
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise RuntimeError("Missing required environment variable: DATABASE_URL")
+
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 app = FastAPI()
 
@@ -44,7 +51,7 @@ LEVEL = {
 }
 
 def log_chat(attempt_id: str, level: int, user_prompt: str, bot_reply: str, model: str | None = None):
-    with psycopg.connect(DB_URL) as conn:
+    with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
@@ -57,7 +64,7 @@ def log_chat(attempt_id: str, level: int, user_prompt: str, bot_reply: str, mode
 
 def start_attempt():
     """Create a new anonymous attempt and return (attempt_id, started_at)."""
-    with psycopg.connect(DB_URL) as conn:
+    with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
@@ -72,7 +79,7 @@ def start_attempt():
 
 def finish_attempt(attempt_id: str, final_level: int, finished_reason: str):
     """Finish an attempt and compute duration + prompt_count server-side."""
-    with psycopg.connect(DB_URL) as conn:
+    with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """

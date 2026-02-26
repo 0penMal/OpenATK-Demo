@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 import ChatMessage from "../components/ChatMessage";
 import ChatInput from "../components/ChatInput";
@@ -7,17 +8,20 @@ import LevelPanel from "../components/LevelPanel";
 import PageProgress from "../components/PageProgress";
 import PswdPanel from "../components/PswdPanel";
 
-const API = "http://127.0.0.1:8000";
+// const API = "http://127.0.0.1:8000";
+const API = "/api";
 const CHALLENGE_ACCESS_KEY = "challenge_access";
 const TOTAL_LEVELS = 3;
 
 function FinishModal({ open, onCancel, onConfirm }) {
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div className="finish-modal-backdrop">
-      <div className="finish-modal">
-        <h3 className="finish-modal-title">End session?</h3>
+      <div className="finish-modal" role="dialog" aria-modal="true" aria-labelledby="finish-modal-title">
+        <h3 id="finish-modal-title" className="finish-modal-title">
+          End session?
+        </h3>
         <p className="finish-modal-text">
           Are you sure you want to finish your attempt? You won't be able to continue after ending.
         </p>
@@ -31,7 +35,8 @@ function FinishModal({ open, onCancel, onConfirm }) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
